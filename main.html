@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAITRI – AI Assistant for Astronaut Well-Being</title>
+  <link rel="stylesheet" href="main.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <img src="logo1.jpg" alt="website logo" class="logo-left">
+    <div class="title-block">
+      <h1><i class="fas fa-rocket"></i> MAITRI - AI Assistant for Astronaut Well-Being</h1>
+      <p class="datetime" id="datetime"></p>
+    </div>
+    <img src="isro5.jpg" alt="ISRO logo" class="logo-right">
+  </header>
+
+
+  <!-- NAVIGATION -->
+  <nav class="tabs-wrapper">
+    <div class="tabs">
+      <a href="main.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
+      <a href="hello.html"><i class="fas fa-brain"></i> Emotion Detection</a>
+      <a href="aicouncelling.html"><i class="fas fa-comments"></i> AI Counseling</a>
+      <a href="MAITRI VOICE BOT AND CAMERA FILE/MAITRI SALLO/maitri-only-voice.html"><i class="fas fa-microphone"></i>AI Assistant</a>
+      <a href="reports.html"><i class="fas fa-chart-line"></i> Reports</a>
+      <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+      <button class="emergency-btn" onclick="triggerEmergency()">🚨 EMERGENCY
+        <i class="fas fa-exclamation-triangle"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <section class="overview grid-3">
+    <div class="card">Mission Status: <strong>Active</strong></div>
+    <div class="card">
+      System Health: <strong>98%</strong>
+      <div class="progress-bar">
+        <div class="fill" style="width: 98%;"></div>
+      </div>
+    </div>
+    <div class="card">Interventions Today: <strong>3</strong></div>
+  </section>
+
+    <!-- CREW -->
+  <section class="crew">
+    <h2>Crew Members</h2>
+    <div class="crew-list">
+      <div class="crew-card good">👩‍🚀 Commander Sarah Johnson <span>🟢 STABLE</span></div>
+      <div class="crew-card warning">🧑‍⚕ Dr. Raj Patel <span>🟠 STRESSED</span></div>
+      <div class="crew-card good">🔧 Engineer Lisa Chen <span>🟢 GOOD</span></div>
+    </div>
+  </section>
+
+  <!-- VITAL SIGNS -->
+  <section class="vitals">
+    <h2>Real-Time Vital Signs</h2>
+    <div class="grid-4">
+      <!-- Respiratory Rate Card -->
+  <div class="card vital" onclick="openRRModal()">
+    <h3><i class="fas fa-lungs"></i> Respiratory Rate</h3>
+    <p class="value">
+      18 br/min 
+      <span class="status good">Normal</span>
+      <i class="fas fa-arrow-down" style="color:#4caf50;"></i>
+    </p>
+    <div class="progress-bar"><div class="fill"></div></div>
+  </div>
+
+  <div id="rrModal" class="fullscreen-modal">
+  <div class="modal-content split">
+    <!-- Left Text -->
+    <div class="modal-text">
+      <h2><i class="fas fa-lungs"></i> Respiratory Rate</h2>
+      <p><strong>What is Respiratory Rate?</strong><br>
+        Respiratory rate is the number of breaths per minute. It helps monitor lung and oxygen health.
+      </p>
+      <p><strong>Normal Range:</strong> 12 – 20 breaths/minute</p>
+      <p><strong>Current Value:</strong> 18 br/min → <span style="color:green;">Normal</span></p>
+      <p><strong>AI Advice:</strong> Breathing stable. Keep monitoring.</p>
+    </div>
+
+    <!-- Right Image -->
+    <div class="modal-image">
+      <img src="k1.webp" alt="Respiratory System">
+    </div>
+  </div>
+  <span class="close-btn" onclick="closeRRModal()">&times;</span>
+</div>
+
+ 
+       <!-- ✅ Sleep Quality Card -->
+  <div class="card vital" onclick="openSleepModal()">
+    <h3><i class="fas fa-bed"></i> Sleep Quality</h3>
+    <p class="value">
+      7.5 hrs 
+      <span class="status.good">Good</span>
+      <i class="fas fa-arrow-up" style="color:#4caf50;"></i>
+    </p>
+    <div class="progress-bar"><div class="fill"></div></div>
+  </div>
+
+  <div id="sleepModal" class="fullscreen-modal">
+  <div class="modal-content split">
+    <!-- Left Text -->
+    <div class="modal-text">
+      <h2><i class="fas fa-lungs"></i>  Sleep Quality – Details</h2>
+      <p><strong>What is Sleep Quality?</strong><br>
+        Sleep quality measures how restful and restorative a person’s sleep is, not just how long they sleep.
+      </p>
+      <p><strong>Optimal Range:</strong> 7 – 9 hours of uninterrupted sleep</p>
+      <p><strong>Current Value:</strong> 7.5 hrs → <span class="status .good"style="color: green;">Good</span></p>
+      <p><strong>Why it Matters?</strong><br>
+        - Poor sleep = stress, low focus, weak immunity.<br>
+        - Good sleep = better mood, memory, and health.
+      </p>
+      <p><strong>AI Advice:</strong> Sleep pattern is healthy. Maintain a consistent routine.</p>
+    </div>
+    <!-- Right Image -->
+    <div class="modal-image">
+      <img src="k3.jpg" alt="Sleep Quality">
+    </div>
+  </div>
+  <span class="close-btn" onclick="closeSleepModal()">&times;</span>
+</div>
+      <!-- ✅ Temperature Card -->
+  <div class="card vital" onclick="openTempModal()">
+    <h3><i class="fas fa-temperature-high"></i> Temperature</h3>
+    <p class="value">
+      98.6°F 
+      <span class="status.normal">Normal</span>
+      <i class="fas fa-arrow-right" style="color:#4caf50;"></i>
+    </p>
+    <div class="progress-bar"><div class="fill"></div></div>
+  </div>
+<!-- Temperature Modal -->
+<div id="tempModal" class="modal fullscreen">
+  <div class="modal-content split">
+    <!-- Left Side (Text) -->
+    <div class="modal-text">
+  
+      <h2><i class="fas fa-temperature-high"></i> Temperature – Details</h2>
+      <p><strong>What is Body Temperature?</strong><br>
+        Body temperature shows the balance between heat produced and lost by the body, an important sign of overall health.
+      </p>
+      <p><strong>Normal Range:</strong> 97°F – 99°F (36.1°C – 37.2°C)</p>
+      <p><strong>Current Value:</strong> 98.6°F → 
+        <span class="status normal" style="color: green;">Normal</span>
+      </p>
+      <p><strong>Why it Matters?</strong><br>
+        - High temp = fever, infection, dehydration.<br>
+        - Low temp = hypothermia, fatigue, circulation issues.
+      </p>
+      <p><strong>AI Advice:</strong> Temperature stable. Continue routine monitoring.</p>
+    </div>
+
+    <!-- Right Side (Image) -->
+    <div class="modal-image">
+      <img src="k3.jpg" alt="Body Temperature" />
+    </div>
+  </div>
+   <span class="close-btn" onclick="closetempModal()">&times;</span>
+</div>
+      <!-- ✅ O₂ Saturation Card -->
+  <div class="card vital" onclick="openO2Modal()">
+    <h3><i class="fas fa-tint"></i> O₂ Saturation</h3>
+    <p class="value">
+      99% 
+      <span class="status normal">Normal</span>
+      <i class="fas fa-arrow-up" style="color:#4caf50;"></i>
+    </p>
+    <div class="progress-bar"><div class="fill"></div></div>
+  </div>
+
+  <!-- ✅ O₂ Saturation Modal -->
+   <div id="o2Modal" class="modal fullscreen">
+    <div class="modal-content split">
+   <!--Left side(Text)-->
+  
+    <div class="modal-text">
+      
+      <h2><i class="fas fa-tint"></i> O₂ Saturation – Details</h2>
+      <p><strong>What is O₂ Saturation?</strong><br>
+        Oxygen saturation (SpO₂) shows how much oxygen your red blood cells are carrying. 
+        It is critical for astronauts in space environments.
+      </p>
+      <p><strong>Normal Range:</strong> 95% – 100%</p>
+      <p><strong>Current Value:</strong> 99% → <span class="status.good" style="color: green;">Optimal</span></p>
+      <p><strong>Why it Matters?</strong><br>
+        - Low O₂ saturation can cause dizziness, fatigue, or hypoxia.<br>
+        - Very low levels (<90%) can be life-threatening and require immediate intervention.</p>
+      
+      <p><strong>AI Advice:</strong> Oxygen levels are stable. No immediate concern.</p>
+    </div>
+    <!--Right side (Image)-->
+    <div class="modal-image">
+      <img src="k2.jpg" alt="O2 Saturation" />
+    </div>
+  </div>
+   <span class="close-btn" onclick="closeO2Modal()">&times;</span>
+</div>
+  </div>
+    </div>
+  </section>
+
+  <!-- QUICK ACTIONS -->
+  <section class="actions">
+    <h2>Quick Actions</h2>
+    <div class="buttons">
+      <button class="blue" onclick="startMeditation()">🧘 Meditation</button>
+      <button class="green" onclick="startCounseling()">🧠 Emotional Counseling</button>
+      <button class="orange" onclick="startEmergency()">🚨 Emergency Counseling</button>
+      <button class="yellow" onclick="generateReport()">📄 Generate Report</button>
+    </div>
+  </section>
+
+  
+  <!-- ALERTS -->
+  <section class="alerts">
+    <h2>Recent Alerts</h2>
+    <ul id="alert-list">
+      <li>🔔 EMERGENCY: Alert sent to Ground Control</li>
+    </ul>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Mission: Artemis IX • Orbiting Mars • AI Support System v4.0</p>
+    
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+       // Live Date & Time
+    function updateDateTime() {
+      const now = new Date();
+      document.querySelector('.datetime').textContent =
+        now.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long',
+                                      day: 'numeric', hour: '2-digit', minute: '2-digit',
+                                      second: '2-digit', hour12: true });
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    // Emergency Trigger
+    function triggerEmergency() {
+      document.body.classList.add("emergency-mode");
+      addAlert("🚨 Emergency protocol activated. Ground Control notified.");
+      setTimeout(() => document.body.classList.remove("emergency-mode"), 5000); // 5 sec reset
+    }
+
+    // Quick Actions
+    function startMeditation() { addAlert("🧘 Meditation session started."); }
+    function startCounseling() { addAlert("🧠 Emotional Counseling initiated."); }
+    function startEmergency() { addAlert("🚨 Emergency Counseling activated."); }
+    function generateReport() { addAlert("📄 Health Report Generated."); }
+
+    // Dynamic Alerts
+function addAlert(message) {
+  const ul = document.getElementById("alert-list");
+  const li = document.createElement("li");
+  li.textContent = message + " (" + new Date().toLocaleTimeString() + ")";
+  li.classList.add("fade-in", "alert-item");
+  ul.prepend(li);
+}
+    function openRRModal() {
+      document.getElementById("rrModal").style.display = "block";
+    }
+    function closeRRModal() {
+      document.getElementById("rrModal").style.display = "none";
+    }
+    // background click se close hoga
+    window.onclick = function(event) {
+      let modal = document.getElementById("rrModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+     function openSleepModal() {
+      document.getElementById("sleepModal").style.display = "block";
+    }
+    function closeSleepModal() {
+      document.getElementById("sleepModal").style.display = "none";
+    }
+    // background click se bhi close hoga
+    window.onclick = function(event) {
+      let modal = document.getElementById("sleepModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+     function openTempModal() {
+      document.getElementById("tempModal").style.display = "block";
+    }
+    function closetempModal() {
+      document.getElementById("tempModal").style.display = "none";
+    }
+    // background click se bhi close hoga
+    window.onclick = function(event) {
+      let modal = document.getElementById("tempModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    function openO2Modal() {
+      document.getElementById("o2Modal").style.display = "block";
+    }
+    function closeO2Modal() {
+      document.getElementById("o2Modal").style.display = "none";
+    }
+    // background click se bhi close hoga
+    window.onclick = function(event) {
+      let modal = document.getElementById("o2Modal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+   
+
+// background click se close hoga
+window.onclick = function(event) {
+  let modals = document.getElementsByClassName("modal");
+  for (let i = 0; i < modals.length; i++) {
+    if (event.target == modals[i]) {
+      modals[i].style.display = "none";
+    }
+  }
+}
+
+  </script>
+
+</body>
+</html>
