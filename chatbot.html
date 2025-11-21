@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAITRI - Astronaut AI Companion</title>
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <div class="logo">
+                    <h1>🚀 MAITRI</h1>
+                    <span class="tagline">AI Companion for Space</span>
+                </div>
+                <div class="astronaut-selector">
+                    <select id="astronautSelect" class="form-control">
+                        <option value="">Select Astronaut</option>
+                    </select>
+                </div>
+                <div class="emergency-btn-container">
+                    <button id="emergencyBtn" class="btn btn--emergency">🚨 Emergency Alert</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="main-container">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section id="welcomeSection" class="welcome-section">
+                <div class="card">
+                    <div class="card__body">
+                        <h2>Welcome to MAITRI</h2>
+                        <p>Your personal AI companion designed specifically for astronaut well-being. Select your profile to begin your personalized experience.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Astronaut Profile Section -->
+            <section id="profileSection" class="profile-section hidden">
+                <div class="card">
+                    <div class="card__body">
+                        <div class="profile-info">
+                            <div class="profile-avatar">
+                                <div class="avatar-placeholder">👨‍🚀</div>
+                            </div>
+                            <div class="profile-details">
+                                <h3 id="astronautName">Astronaut Name</h3>
+                                <div class="profile-stats">
+                                    <span id="astronautMission" class="status status--info">Mission</span>
+                                    <span id="astronautDuration" class="status status--success">Duration</span>
+                                </div>
+                                <p id="astronautSpecialization">Specialization</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Tabs -->
+            <nav id="navigationTabs" class="nav-tabs hidden">
+                <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+                <button class="nav-tab" data-tab="emotion">Emotion Detection</button>
+                <button class="nav-tab" data-tab="counseling">AI Counseling</button>
+                <button class="nav-tab" data-tab="analytics">Analytics</button>
+                <button class="nav-tab" data-tab="entertainment">Entertainment</button>
+                <button class="nav-tab" data-tab="settings">Settings</button>
+            </nav>
+
+            <!-- Dashboard Tab -->
+            <section id="dashboardTab" class="tab-content active">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Today's Emotional State</h3>
+                            <div class="emotion-summary">
+                                <div class="emotion-indicator">
+                                    <span class="emotion-icon">😊</span>
+                                    <span id="currentEmotion">Calm</span>
+                                </div>
+                                <div class="stress-meter">
+                                    <label>Stress Level:</label>
+                                    <div class="meter">
+                                        <div id="stressMeterFill" class="meter-fill" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Quick Actions</h3>
+                            <div class="quick-actions">
+                                <button class="btn btn--secondary" onclick="startCounseling()">Start Counseling</button>
+                                <button class="btn btn--secondary" onclick="breathingExercise()">Breathing Exercise</button>
+                                <button class="btn btn--secondary" onclick="viewEarth()">View Earth</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Daily Progress</h3>
+                            <div class="progress-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Sleep Quality</span>
+                                    <span class="stat-value">7.2/10</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Mood Score</span>
+                                    <span class="stat-value">8.1/10</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Stress Level</span>
+                                    <span class="stat-value">3.2/10</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Mission Status</h3>
+                            <div class="mission-info">
+                                <div class="mission-day">
+                                    <span class="label">Mission Day:</span>
+                                    <span id="missionDay">156</span>
+                                </div>
+                                <div class="next-contact">
+                                    <span class="label">Next Earth Contact:</span>
+                                    <span>14:30 UTC</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emotion Detection Tab -->
+            <section id="emotionTab" class="tab-content">
+                <div class="emotion-grid">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Facial Emotion Detection</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="camera-container">
+                                <video id="videoElement" autoplay muted></video>
+                                <canvas id="overlayCanvas"></canvas>
+                            </div>
+                            <div class="emotion-results">
+                                <div id="faceEmotions"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Voice Stress Analysis</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="voice-analysis">
+                                <button id="voiceToggle" class="btn btn--primary">Start Voice Analysis</button>
+                                <div class="voice-visualizer">
+                                    <canvas id="voiceCanvas" width="300" height="100"></canvas>
+                                </div>
+                                <div id="voiceResults" class="voice-results">
+                                    <div class="voice-metric">
+                                        <span>Pitch: </span>
+                                        <span id="pitchValue">-- Hz</span>
+                                    </div>
+                                    <div class="voice-metric">
+                                        <span>Speech Rate: </span>
+                                        <span id="speechRate">-- WPM</span>
+                                    </div>
+                                    <div class="voice-metric">
+                                        <span>Stress Indicator: </span>
+                                        <span id="stressIndicator" class="status status--success">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card full-width">
+                        <div class="card__header">
+                            <h3>Combined Emotional Analysis</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="emotionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Counseling Tab -->
+            <section id="counselingTab" class="tab-content">
+                <div class="counseling-layout">
+                    <div class="counseling-sidebar">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Counseling Topics</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="topic-list">
+                                    <button class="topic-btn" data-topic="isolation">🏠 Isolation & Homesickness</button>
+                                    <button class="topic-btn" data-topic="sleep">😴 Sleep & Circadian Issues</button>
+                                    <button class="topic-btn" data-topic="stress">😰 Stress & Anxiety</button>
+                                    <button class="topic-btn" data-topic="cognitive">🧠 Cognitive Function</button>
+                                    <button class="topic-btn" data-topic="relationships">👥 Crew Relationships</button>
+                                    <button class="topic-btn" data-topic="performance">🎯 Performance Concerns</button>
+                                    <button class="topic-btn" data-topic="communication">📞 Earth Communication</button>
+                                    <button class="topic-btn" data-topic="general">💬 General Chat</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-container">
+                        <div class="card chat-card">
+                            <div class="card__header">
+                                <div class="ai-counselor">
+                                    <span class="ai-avatar">🤖</span>
+                                    <div>
+                                        <h3>MAITRI Counselor</h3>
+                                        <span class="online-status">Online</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card__body">
+                                <div id="chatMessages" class="chat-messages">
+                                    <div class="message ai-message">
+                                        <div class="message-avatar">🤖</div>
+                                        <div class="message-content">
+                                            <p>Hello! I'm MAITRI, your AI counselor designed specifically for astronauts. I understand the unique challenges of space missions. How can I support you today?</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-input-container">
+                                    <input type="text" id="chatInput" class="form-control" placeholder="Type your message...">
+                                    <button id="sendMessage" class="btn btn--primary">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Tab -->
+            <section id="analyticsTab" class="tab-content">
+                <div class="analytics-grid">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Mood Trend (7 Days)</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 200px;">
+                                <canvas id="moodChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Sleep Quality</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 200px;">
+                                <canvas id="sleepChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Stress Levels</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 200px;">
+                                <canvas id="stressChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Weekly Summary</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="summary-stats">
+                                <div class="summary-item">
+                                    <h4>Average Mood</h4>
+                                    <span class="big-number">7.8</span>
+                                    <span class="trend-up">↗ +0.5</span>
+                                </div>
+                                <div class="summary-item">
+                                    <h4>Sleep Hours</h4>
+                                    <span class="big-number">6.2</span>
+                                    <span class="trend-down">↘ -0.3</span>
+                                </div>
+                                <div class="summary-item">
+                                    <h4>Counseling Sessions</h4>
+                                    <span class="big-number">4</span>
+                                    <span class="trend-up">↗ +1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Entertainment Tab -->
+            <section id="entertainmentTab" class="tab-content">
+                <div class="entertainment-grid">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>🎬 Movies & TV Shows</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="entertainment-list">
+                                <div class="entertainment-item">
+                                    <span class="item-title">Star Wars Collection</span>
+                                    <button class="btn btn--sm btn--secondary">Watch</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">2001: A Space Odyssey</span>
+                                    <button class="btn btn--sm btn--secondary">Watch</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">The Martian</span>
+                                    <button class="btn btn--sm btn--secondary">Watch</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">Gravity</span>
+                                    <button class="btn btn--sm btn--secondary">Watch</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>🎵 Music & Audio</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="entertainment-list">
+                                <div class="entertainment-item">
+                                    <span class="item-title">Personal Playlists</span>
+                                    <button class="btn btn--sm btn--secondary">Play</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">Virtual Guitar</span>
+                                    <button class="btn btn--sm btn--secondary">Play</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">Space Ambients</span>
+                                    <button class="btn btn--sm btn--secondary">Play</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">Earth Sounds</span>
+                                    <button class="btn btn--sm btn--secondary">Play</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>🌍 Earth Connection</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="earth-activities">
+                                <button class="btn btn--primary btn--full-width" onclick="viewEarthLive()">🌍 Live Earth View</button>
+                                <button class="btn btn--secondary btn--full-width" onclick="weatherUpdates()">🌤️ Weather Updates</button>
+                                <button class="btn btn--secondary btn--full-width" onclick="familyPhotos()">📸 Family Photos</button>
+                                <button class="btn btn--secondary btn--full-width" onclick="newsUpdates()">📰 Earth News</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>🎮 Interactive Activities</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="entertainment-list">
+                                <div class="entertainment-item">
+                                    <span class="item-title">Space Trivia</span>
+                                    <button class="btn btn--sm btn--secondary" onclick="spaceTrivia()">Play</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">Digital Art Studio</span>
+                                    <button class="btn btn--sm btn--secondary">Create</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">Mission Timeline</span>
+                                    <button class="btn btn--sm btn--secondary">Explore</button>
+                                </div>
+                                <div class="entertainment-item">
+                                    <span class="item-title">Poetry Generator</span>
+                                    <button class="btn btn--sm btn--secondary">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="settingsTab" class="tab-content">
+                <div class="settings-grid">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Emergency Alert Settings</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="form-group">
+                                <label class="form-label">Alert Sensitivity</label>
+                                <select class="form-control">
+                                    <option>Low - Only Critical Issues</option>
+                                    <option selected>Medium - Moderate Concerns</option>
+                                    <option>High - All Detected Issues</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Auto-Contact Ground Control</label>
+                                <select class="form-control">
+                                    <option>Never</option>
+                                    <option selected>High Level Alerts Only</option>
+                                    <option>All Emergency Levels</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Counseling Preferences</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="form-group">
+                                <label class="form-label">Intervention Style</label>
+                                <select class="form-control">
+                                    <option>Gentle & Supportive</option>
+                                    <option selected>Direct & Solution-Focused</option>
+                                    <option>Exploratory & Reflective</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Check-in Frequency</label>
+                                <select class="form-control">
+                                    <option>Every 4 hours</option>
+                                    <option selected>Every 8 hours</option>
+                                    <option>Every 12 hours</option>
+                                    <option>Daily only</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Privacy & Data</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <input type="checkbox" checked> Share anonymous data for research
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <input type="checkbox" checked> Allow emotion detection
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <input type="checkbox"> Store conversation history
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Interface Preferences</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="form-group">
+                                <label class="form-label">Text Size</label>
+                                <select class="form-control">
+                                    <option>Small</option>
+                                    <option selected>Medium</option>
+                                    <option>Large</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <input type="checkbox"> Enable voice-only mode
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <input type="checkbox" checked> Play notification sounds
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Emergency Modal -->
+    <div id="emergencyModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🚨 Emergency Alert System</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="emergency-options">
+                    <button class="emergency-level-btn" data-level="medium">
+                        <span class="level-icon">⚠️</span>
+                        <div class="level-info">
+                            <h3>Medium Alert</h3>
+                            <p>Persistent mood issues, sleep problems</p>
+                        </div>
+                    </button>
+                    <button class="emergency-level-btn" data-level="high">
+                        <span class="level-icon">🔴</span>
+                        <div class="level-info">
+                            <h3>High Alert</h3>
+                            <p>Severe distress, panic attacks</p>
+                        </div>
+                    </button>
+                    <button class="emergency-level-btn" data-level="critical">
+                        <span class="level-icon">🚨</span>
+                        <div class="level-info">
+                            <h3>Critical Alert</h3>
+                            <p>Immediate danger, crisis situation</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
