@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Settings - MAITRI</title>
+  <!-- ✅ Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- ✅ Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .btn-animate { transition: transform 0.2s; }
+    .btn-animate:active { transform: scale(0.95); }
+    .card-animate { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.6s forwards;}
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0);} }
+    #toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999;}
+    .emergency-mode { background-color: #ff2222 !important; transition: background-color 0.3s;}
+    .emergency-mode .card { background-color: #ff6666 !important; border-color: #ff2222 !important; transition: background-color 0.3s, border-color 0.3s;}
+  </style>
+</head>
+<body class="bg-light">
+<div id="toast-container"></div>
+
+<div class="container py-4">
+  <h1 class="text-center mb-4 text-primary">
+    <i class="fas fa-cog"></i> System Settings
+  </h1>
+  <div class="row">
+    <!-- AI Configuration -->
+    <div class="col-lg-6 col-md-12 mb-4 card-animate">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="fas fa-robot"></i> AI Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-4">
+            <label class="form-label">Emotion Detection Sensitivity: <span id="sensitivityValue">7</span></label>
+            <input type="range" class="form-range" min="1" max="10" value="7" id="sensitivityRange">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Low</span><span>High</span>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Intervention Threshold</label>
+            <select class="form-select" id="interventionThreshold">
+              <option>Low</option>
+              <option selected>Medium</option>
+              <option>High</option>
+            </select>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="autoCounseling" checked>
+            <label class="form-check-label" for="autoCounseling">
+              Auto-Counseling Activation
+            </label>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="realTimeAnalysis" checked>
+            <label class="form-check-label" for="realTimeAnalysis">
+              Continuous Emotion Analysis
+            </label>
+          </div>
+          <button class="btn btn-primary w-100 btn-animate" id="saveAI">Save AI Settings</button>
+        </div>
+      </div>
+    </div>
+    <!-- Notifications -->
+    <div class="col-lg-6 col-md-12 mb-4 card-animate">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="fas fa-bell"></i> Notification Settings</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="wellnessReminders" checked>
+            <label class="form-check-label" for="wellnessReminders">Wellness Check Reminders</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="emergencyAlerts" checked>
+            <label class="form-check-label" for="emergencyAlerts">Emergency Alert Notifications</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="groundControlSync">
+            <label class="form-check-label" for="groundControlSync">Ground Control Sync Notifications</label>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="dailyReports" checked>
+            <label class="form-check-label" for="dailyReports">Daily Summary Reports</label>
+          </div>
+          <button class="btn btn-primary w-100 btn-animate" id="saveNotifications">Save Notification Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Data Management -->
+    <div class="col-lg-6 col-md-12 mb-4 card-animate">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="fas fa-database"></i> Data Management</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Storage Used:</strong></p>
+          <div class="progress mb-2">
+            <div class="progress-bar bg-primary" id="storageBar" style="width:42%"></div>
+          </div>
+          <small class="text-muted">2.1 GB / 5 GB available</small>
+          <p class="mt-3"><strong>Last Backup:</strong> 2 hours ago</p>
+          <p><strong>Sync Status:</strong> <span class="badge bg-success">Connected</span></p>
+          <button class="btn btn-primary w-100 mb-2 btn-animate" id="backupData">Backup Data Now</button>
+          <button class="btn btn-warning w-100 mb-2 btn-animate" id="clearCache">Clear Cache</button>
+          <button class="btn btn-danger w-100 btn-animate" id="factoryReset">Factory Reset</button>
+        </div>
+      </div>
+    </div>
+    <!-- Security & Privacy -->
+    <div class="col-lg-6 col-md-12 mb-4 card-animate">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="fas fa-shield-alt"></i> Security & Privacy</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="dataEncryption" checked disabled>
+            <label class="form-check-label" for="dataEncryption">Data Encryption (Always On)</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="anonymizeData">
+            <label class="form-check-label" for="anonymizeData">Anonymize Personal Data</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="shareWithResearch" checked>
+            <label class="form-check-label" for="shareWithResearch">Share Data for Research (Anonymous)</label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Data Retention Period</label>
+            <select class="form-select" id="dataRetention">
+              <option>30 days</option>
+              <option>90 days</option>
+              <option selected>1 year</option>
+              <option>Indefinite</option>
+            </select>
+          </div>
+          <button class="btn btn-primary w-100 btn-animate" id="updatePrivacy">Update Privacy Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 card-animate">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="fas fa-info-circle"></i> System Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-3 col-6 mb-3">
+              <strong>MAITRI Version</strong>
+              <p class="mb-0">v2.1.0</p>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <strong>AI Model</strong>
+              <p class="mb-0">Neural-V3.2</p>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <strong>Last Update</strong>
+              <p class="mb-0">Sept 15, 2025</p>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <strong>Uptime</strong>
+              <p class="mb-0">15 days, 8 hours</p>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-4 mb-2">
+              <button class="btn btn-info w-100 btn-animate" id="checkUpdates">Check for Updates</button>
+            </div>
+            <div class="col-md-4 mb-2">
+              <button class="btn btn-secondary w-100 btn-animate" id="systemDiagnostics">System Diagnostics</button>
+            </div>
+            <div class="col-md-4 mb-2">
+              <button class="btn btn-warning w-100 btn-animate" id="exportLogs">Export Logs</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const sensitivityRange = document.getElementById('sensitivityRange');
+  const sensitivityValue = document.getElementById('sensitivityValue');
+  sensitivityRange.addEventListener('input', () => { sensitivityValue.textContent = sensitivityRange.value; });
+
+  function showToast(message, type = "success") {
+    const toastContainer = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast align-items-center text-bg-${type} border-0 show mb-2`;
+    toast.role = "alert";
+    toast.innerHTML = `<div class="d-flex"><div class="toast-body">${message}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>`;
+    toastContainer.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  function shakePage() {
+    document.body.style.animation = "shake 0.5s";
+    document.body.addEventListener('animationend', () => {
+      document.body.style.animation = "";
+    }, { once: true });
+  }
+
+  function flashBackground(color, emergency = false) {
+    document.body.style.backgroundColor = color;
+    if (emergency) { document.body.classList.add('emergency-mode'); }
+    setTimeout(() => {
+      document.body.style.backgroundColor = "";
+      if (emergency) { document.body.classList.remove('emergency-mode'); }
+    }, 600);
+  }
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes shake {0% { transform: translate(0px, 0px);} 20% { transform: translate(-10px, 0px);} 40% { transform: translate(10px, 0px);}
+    60% { transform: translate(-10px, 0px);} 80% { transform: translate(10px, 0px);} 100% { transform: translate(0px, 0px);} }`;
+  document.head.appendChild(style);
+
+  // Unique background color for each button
+  const buttonConfig = {
+    saveAI: { msg: "✅ AI settings saved successfully!", toastType: "success", pageColor: "#d2f7d0" },     // light green
+    saveNotifications: { msg: "🔔 Notification settings updated!", toastType: "info", pageColor: "#d1f0ff" }, // sky blue
+    backupData: { msg: "💾 Data backup completed!", toastType: "success", pageColor: "#f0fff3" },           // mint
+    clearCache: { msg: "🧹 Cache cleared!", toastType: "warning", pageColor: "#fff6d1" },                    // pale yellow
+    factoryReset: { msg: "⚠️ Factory reset initiated!", toastType: "danger", pageColor: "#ffdddd", emergency: true }, // danger red
+    updatePrivacy: { msg: "🔒 Privacy settings updated!", toastType: "primary", pageColor: "#e2efff" },     // light indigo
+    checkUpdates: { msg: "🔄 Checking for updates...", toastType: "info", pageColor: "#f0f4ff" },           // light purple-blue
+    systemDiagnostics: { msg: "🛠 Running system diagnostics...", toastType: "secondary", pageColor: "#f7f7f7" }, // grey
+    exportLogs: { msg: "📁 Logs exported successfully!", toastType: "success", pageColor: "#ecffe9" }       // pastel green
+  };
+
+  Object.keys(buttonConfig).forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const { msg, toastType, pageColor, emergency } = buttonConfig[id];
+        showToast(msg, toastType);
+        shakePage();
+        flashBackground(pageColor, emergency);
+      });
+    }
+  });
+</script>
+</body>
+</html>

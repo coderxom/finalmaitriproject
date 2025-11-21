@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAITRI Reports</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .reports-section {
+      padding: 60px 10%;
+      text-align: center;
+    }
+
+    .reports-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #00e0ff;
+      text-shadow: 0px 0px 15px rgba(0, 224, 255, 0.8);
+    }
+
+    .reports-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .report-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .report-card:hover {
+      transform: translateY(-12px) scale(1.03);
+      box-shadow: 0 15px 40px rgba(0, 224, 255, 0.4);
+    }
+
+    .report-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #00e0ff;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    .report-description {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #e0f7fa;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px #00e0ff, 0 0 10px #00e0ff; }
+      100% { text-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff; }
+    }
+
+    /* ===== Modal Styling ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .modal-content {
+      background: rgba(20, 30, 40, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 800px;
+      width: 90%;
+      color: #fff;
+      position: relative;
+      transform: scale(0.7);
+      animation: zoomIn 0.5s forwards;
+      box-shadow: 0 10px 40px rgba(0,224,255,0.6);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #00e0ff;
+      transition: 0.3s;
+    }
+
+    .close-btn:hover {
+      color: red;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      to { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  
+  <section class="reports-section">
+    <h2 class="reports-title" data-aos="fade-down">📊 Mission Reports</h2>
+    
+    <div class="reports-container">
+      <div class="report-card" data-aos="fade-up" data-aos-delay="100" onclick="openModal('modal1')">
+        <h3 class="report-title">Mental Health Analysis</h3>
+        <p class="report-description">AI-generated insights on astronaut stress, mood tracking, and emotional stability.</p>
+      </div>
+
+      <div class="report-card" data-aos="fade-up" data-aos-delay="200" onclick="openModal('modal2')">
+        <h3 class="report-title">Physical Fitness Report</h3>
+        <p class="report-description">Daily fitness monitoring, vitals tracking, and exercise recommendations.</p>
+      </div>
+
+      <div class="report-card" data-aos="fade-up" data-aos-delay="300" onclick="openModal('modal3')">
+        <h3 class="report-title">Sleep & Rest Cycle</h3>
+        <p class="report-description">Tracking of astronaut sleep cycles with AI-powered recommendations for better rest.</p>
+      </div>
+
+      <div class="report-card" data-aos="fade-up" data-aos-delay="400" onclick="openModal('modal4')">
+        <h3 class="report-title">Mission Performance</h3>
+        <p class="report-description">Comprehensive evaluation of astronaut performance during space missions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Modal 1 ===== -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modal1')">&times;</span>
+    <h2>Mental Health Analysis - Detailed Report</h2>
+    <p>This section shows an advanced psychological well-being analysis of astronauts.</p>
+    <img src="c.png" alt="Mental Health Report" style="width:100%; border-radius:15px;">
+  </div>
+</div>
+
+<!-- ===== Modal 2 ===== -->
+<div id="modal2" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modal2')">&times;</span>
+    <h2>Physical Fitness</h2>
+    <p>Daily fitness monitoring and exercise recommendations.</p>
+    <img src="b.png" alt="Fitness Report" style="width:100%; border-radius:15px;">
+  </div>
+</div>
+
+<!-- ===== Modal 3 ===== -->
+<div id="modal3" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modal3')">&times;</span>
+    <h2>Sleep & Rest Cycle</h2>
+    <p>Tracking astronaut sleep cycles with AI recommendations.</p>
+    <img src="s.png" alt="Sleep Cycle Report" style="width:50%; border-radius:15px;">
+  </div>
+</div>
+
+<!-- ===== Modal 4 ===== -->
+<div id="modal4" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modal4')">&times;</span>
+    <h2>Mission Performance</h2>
+    <p>Comprehensive evaluation of astronaut performance.</p>
+    <img src="a.jpg" alt="Mission Performance Report" style="width:100%; border-radius:15px;">
+  </div>
+</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1200, once: true });
+
+    function openModal(id) {
+      document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+  </script>
+</body>
+</html>
